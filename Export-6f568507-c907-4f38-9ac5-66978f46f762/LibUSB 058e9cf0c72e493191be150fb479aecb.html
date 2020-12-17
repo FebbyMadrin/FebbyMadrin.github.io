@@ -1,0 +1,820 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>LibUSB</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e823c17d-2fe8-48a7-9a27-101035d39c8b" class="page sans"><header><img class="page-cover-image" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/USB-Typen_klein.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/libusb.png"/></div><h1 class="page-title">LibUSB</h1><table class="properties"><tbody><tr class="property-row property-row-person"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesPerson"><path d="M9.625,10.8465 C8.91187,10.2891 8.12088,9.926 7,9.26013 L7,8.71938 C7.21175,8.47612 7.392,8.176 7.53813,7.83213 C7.94587,7.7315 8.3125,7.33425 8.3125,7 C8.3125,6.51788 8.1095,6.32713 7.8715,6.17137 C7.8715,6.15562 7.875,6.14162 7.875,6.125 C7.875,5.41362 7.4375,3.5 5.25,3.5 C3.0625,3.5 2.625,5.4145 2.625,6.125 C2.625,6.14162 2.6285,6.15562 2.6285,6.17137 C2.3905,6.32713 2.1875,6.51788 2.1875,7 C2.1875,7.33425 2.55413,7.7315 2.96187,7.833 C3.108,8.176 3.28825,8.47612 3.5,8.71938 L3.5,9.26013 C2.37912,9.92513 1.58812,10.2882 0.875,10.8465 C0.041125,11.4984 0,12.4688 0,14 L10.5,14 C10.5,12.4688 10.4589,11.4984 9.625,10.8465 Z M13.125,7.3465 C12.4119,6.78912 11.6209,6.426 10.5,5.76013 L10.5,5.21938 C10.7118,4.97613 10.892,4.676 11.0381,4.33213 C11.4459,4.2315 11.8125,3.83425 11.8125,3.5 C11.8125,3.01787 11.6095,2.82713 11.3715,2.67138 C11.3715,2.65562 11.375,2.64162 11.375,2.625 C11.375,1.91363 10.9375,0 8.75,0 C6.5625,0 6.125,1.9145 6.125,2.625 C6.125,2.64162 6.1285,2.65562 6.1285,2.67138 C6.11188,2.68275 6.09787,2.69588 6.08125,2.70725 C7.83212,3.066 8.59688,4.54825 8.72813,5.74787 C8.97575,6.00863 9.1875,6.39625 9.1875,7 C9.1875,7.60288 8.771,8.20312 8.18388,8.51462 C8.127,8.624 8.06662,8.729 8.00275,8.82962 C8.155,8.91537 8.30025,8.99675 8.44025,9.07463 C9.08075,9.4325 9.63375,9.74137 10.164,10.1561 C10.3022,10.2638 10.4204,10.3801 10.5289,10.4991 L14,10.4991 C14,8.96875 13.9589,7.99837 13.125,7.3465 Z"></path></svg></span>Author</th><td><span class="user"><span class="icon text-icon user-icon"><span class="user-icon-inner">F</span></span>Febby Madrin</span></td></tr><tr class="property-row property-row-date"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesDate"><path d="M10.8889,5.5 L3.11111,5.5 L3.11111,7.05556 L10.8889,7.05556 L10.8889,5.5 Z M12.4444,1.05556 L11.6667,1.05556 L11.6667,0 L10.1111,0 L10.1111,1.05556 L3.88889,1.05556 L3.88889,0 L2.33333,0 L2.33333,1.05556 L1.55556,1.05556 C0.692222,1.05556 0.00777777,1.75556 0.00777777,2.61111 L0,12.5 C0,13.3556 0.692222,14 1.55556,14 L12.4444,14 C13.3,14 14,13.3556 14,12.5 L14,2.61111 C14,1.75556 13.3,1.05556 12.4444,1.05556 Z M12.4444,12.5 L1.55556,12.5 L1.55556,3.94444 L12.4444,3.94444 L12.4444,12.5 Z M8.55556,8.61111 L3.11111,8.61111 L3.11111,10.1667 L8.55556,10.1667 L8.55556,8.61111 Z"></path></svg></span>Date</th><td><time>@Dec 14, 2020 → Dec 18, 2020</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M7,13 C10.31348,13 13,10.31371 13,7 C13,3.68629 10.31348,1 7,1 C3.68652,1 1,3.68629 1,7 C1,10.31371 3.68652,13 7,13 Z M3.75098,5.32278 C3.64893,5.19142 3.74268,5 3.90869,5 L10.09131,5 C10.25732,5 10.35107,5.19142 10.24902,5.32278 L7.15771,9.29703 C7.07764,9.39998 6.92236,9.39998 6.84229,9.29703 L3.75098,5.32278 Z"></path></svg></span>Youtube Link</th><td></td></tr></tbody></table></header><div class="page-body"><nav id="17493080-9c00-48c7-a159-44ade4659c20" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#15a4ab8a-1703-4900-af6a-989c7b980357">References :</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e62d5b8d-60ad-46b0-bc64-0bf3a80c4cf7">Questions :</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#75ffd440-45c2-4a55-84c4-869820630bc9"><code>Schematic</code> :</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#2c793fb9-aa2f-4634-8ae0-899a4218e62d">Qt Programming :</a></div></nav><p id="86fa3d8a-f30c-4454-b4a7-198da8c62b02" class="">
+</p><h2 id="15a4ab8a-1703-4900-af6a-989c7b980357" class="block-color-red">References :</h2><figure id="d5471a2f-d27c-45de-8a04-e438b410f68c"><a href="https://www.mikrocontroller.net/articles/USB-Tutorial_mit_STM32" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">USB-Tutorial mit STM32</div><div class="bookmark-description">Die USB-Schnittstelle ist mittlerweile im Consumer-Bereich allgegenwärtig, während aber im Hobby- und auch Industriebereich noch die serielle Schnittstelle (RS232/UART) sehr verbreitet ist. Der Grund dafür dürfte hauptsächlich in der komplizierteren Implementierung von USB liegen, dafür ist USB aber insbesondere für den Anwender deutlich einfacher einzusetzen - ein gut umgesetztes USB-Gerät kann nach dem Anschließen ohne jegliche Konfiguration oder Installation direkt genutzt werden.</div></div><div class="bookmark-href"><img src="https://www.mikrocontroller.net/favicon.ico" class="icon bookmark-icon"/>https://www.mikrocontroller.net/articles/USB-Tutorial_mit_STM32</div></div><img src="https://www.mikrocontroller.net/wikifiles/thumb/c/c3/Control_Transfers.svg/300px-Control_Transfers.svg.png" class="bookmark-image"/></a></figure><figure id="718789e0-9f9c-411d-bd62-442a16eead95"><a href="https://github.com/libusb/libusb" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">libusb/libusb</div><div class="bookmark-description">libusb is a library for USB device access from Linux, macOS, Windows, OpenBSD/NetBSD, Haiku and Solaris userspace. It is written in C (Haiku backend in C++) and licensed under the GNU Lesser General Public License version 2.1 or, at your option, any later version (see COPYING).</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/libusb/libusb</div></div><img src="https://avatars1.githubusercontent.com/u/4439549?s=400&amp;v=4" class="bookmark-image"/></a></figure><figure id="c2ea88f3-7102-4981-94a7-2f7f6bca29a5"><div class="source"><a href="https://www.youtube.com/watch?v=ft8LXVcYFRg">https://www.youtube.com/watch?v=ft8LXVcYFRg</a></div></figure><p id="aa786acf-2f90-452f-ae05-4b1c82202f7e" class="">
+</p><p id="6531fafd-7f9d-495a-8408-ee489ef63ba8" class="">sumber paling bagus, belajar dari youtube atau materi STM32</p><p id="a7313fe6-01c2-45a6-81c8-62d0bee2f9e2" class="">
+</p><ul id="3e68a01a-648b-4070-8d65-7929212a77be" class="bulleted-list"><li>Koneksi LibUSB dengan kabel yang di kupas</li></ul><ul id="e5783d64-545e-4bf1-9147-3fea47c6ce56" class="bulleted-list"><li>cek koneksi nya</li></ul><p id="91816b78-21b8-4d4e-9e16-370d765051d6" class="">
+</p><p id="938ad188-bc34-4d6b-95fc-27fed68942a5" class="">
+</p><h2 id="e62d5b8d-60ad-46b0-bc64-0bf3a80c4cf7" class="block-color-red">Questions :</h2><ul id="66007f65-5c26-4285-b9a0-def50dcdc114" class="bulleted-list"><li>? kenapa ada 4 kabel tapi di schematik ada 5</li></ul><ul id="88b2cd25-67d0-476a-b984-54d80faedc4b" class="bulleted-list"><li>? apa beda U5V dengan E5V, USB communication ikut mana?</li></ul><ul id="86beb3cb-4057-4216-818e-dc2ffd33e7c7" class="bulleted-list"><li></li></ul><p id="ffb66902-9ac4-4f36-bdcf-4e4c77dc8cde" class="">
+</p><p id="d13ecc4b-f882-4562-8085-00e3653f5e3e" class="">
+</p><p id="8214e7d2-fba7-43a3-b16a-a2c733e348e2" class="">
+</p><h2 id="75ffd440-45c2-4a55-84c4-869820630bc9" class="block-color-red"><code>Schematic</code> :</h2><p id="f9748ba2-4511-40bd-965f-8cb97fef54cc" class="">
+</p><figure id="058e9cf0-c72e-4931-91be-150fb479aecb" class="image"><a href="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled.png"><img style="width:816px" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled.png"/></a></figure><p id="2c3585d6-62d5-40f6-8eda-8b99ac7ea5fb" class="">
+</p><p id="bcaf1bee-23df-4170-9947-537ee621bd34" class="">[CN10R<strong>4</strong>] U5V</p><p id="9e7afd11-8329-4616-bd24-79e00fd2a97e" class="">[CN10R<strong>6</strong>] PA12 → USB_DP → hijau</p><p id="f694f25a-8284-4d2e-9022-c1f8909ca26a" class="">[CN10R<strong>7</strong>] PA11 → USB_DM → putih</p><p id="d273513f-923c-4ef9-90e3-bc1fef2e9f0b" class="">
+</p><figure id="6f125d5e-0094-4bcd-b2b9-8f2d25fb8eb1" class="image"><a href="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled%201.png"><img style="width:631px" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled%201.png"/></a></figure><p id="1abcd72b-9043-415d-a89a-e4cbc83a8144" class="">1 2 3 4</p><p id="3e9612ab-b37e-4b2c-8724-252737d161b0" class="">-   -   -   -</p><p id="69f7d7d1-cf84-4ad9-aa13-af9a5b2b9536" class="">-  hijau putih -</p><figure id="c71e24b3-10db-4f5a-9613-5faaf3cae1f0" class="image"><a href="LibUSB%20058e9cf0c72e493191be150fb479aecb/USB.svg"><img style="width:700px" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/USB.svg"/></a></figure><p id="b068c57b-6081-4535-9da6-c725b15368e6" class="">
+</p><p id="fe04d60c-fbdd-4d03-a5c0-39ddabba3e68" class="">change the PID and VID, so then the computer not confused</p><p id="06f0d69e-3dba-4b53-bdbd-989dfecf16f9" class="">
+</p><p id="d4d2ef0d-d8bf-4562-b7e1-a4514d6f8e51" class="">change device class and subclass to 0</p><p id="89e86304-8091-41c8-a847-399d5b26c697" class="">
+</p><p id="a08bb091-7328-4cfd-bb12-c6d7fd6298f7" class="">
+</p><p id="5af2df87-89dd-4614-a1a4-ca4ac229f8b1" class="">lsusb - tetap STMMIcroelectronics, sebab linux automatis mendeteksi nya</p><p id="afb81fd2-e112-44d6-b149-7a2697378375" class="">
+</p><p id="785ec394-bf9b-4ac1-bdab-1301bd877b5a" class="">patut diingat bahwa ketika setelah generating new code dari MX, maka VID dan PID akan berubah lagi</p><p id="9178ba6d-f3f2-45a0-b044-7c4e926c3114" class="">install script communicator - readme</p><p id="ea2e9475-76f9-4f5b-a5df-f650310feba8" class="">
+</p><p id="1ba7d9bd-826d-468e-9db0-757d42f33623" class="">
+</p><figure id="bfdab4cd-8f21-4a23-a77e-c9ce7ece1505" class="image"><a href="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled%202.png"><img style="width:816px" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled%202.png"/></a></figure><figure id="18ce180e-5c54-4f33-b10e-408b4d61ad5a" class="image"><a href="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled%203.png"><img style="width:816px" src="LibUSB%20058e9cf0c72e493191be150fb479aecb/Untitled%203.png"/></a></figure><p id="dde2eab2-58c6-4296-8eed-db15499046d1" class=""> </p><p id="3d727344-0a2e-4d8e-9469-9a177df05f52" class="">
+</p><hr id="749a4a40-8c2c-4446-8ec4-62996638fa20"/><h2 id="2c793fb9-aa2f-4634-8ae0-899a4218e62d" class="block-color-red">Qt Programming :</h2><p id="e7cc501e-5c48-4436-95d4-0451472e87e7" class="">from this console cpp aplication</p><p id="122dc5a7-a7a6-450c-9dfe-50cc8a24e5de" class=""><code>g++ -o name name.cpp -lusb-1.0</code></p><pre id="c7636153-73a1-4e2e-a554-8cf49bc52113" class="code"><code>#include &lt;iostream&gt;
+#include &lt;libusb-1.0/libusb.h&gt;
+
+using namespace std;
+
+int main() {
+	libusb_device **devs; //pointer to pointer of device, used to retrieve a list of devices
+	libusb_device_handle *dev_handle; //a device handle
+	libusb_context *ctx = NULL; //a libusb session
+	int r; //for return values
+	ssize_t cnt; //holding number of devices in list
+	r = libusb_init(&amp;ctx); //initialize the library for the session we just declared
+	if(r &lt; 0) {
+		cout&lt;&lt;&quot;Init Error &quot;&lt;&lt;r&lt;&lt;endl; //there was an error
+		return 1;
+	}
+	libusb_set_debug(ctx, 3); //set verbosity level to 3, as suggested in the documentation
+
+	cnt = libusb_get_device_list(ctx, &amp;devs); //get the list of devices
+	if(cnt &lt; 0) {
+		cout&lt;&lt;&quot;Get Device Error&quot;&lt;&lt;endl; //there was an error
+		return 1;
+	}
+	cout&lt;&lt;cnt&lt;&lt;&quot; Devices in list.&quot;&lt;&lt;endl;
+
+	dev_handle = libusb_open_device_with_vid_pid(ctx, 0x0483, 0xa376); //these are vendorID and productID I found for my usb device
+	if(dev_handle == NULL)
+		cout&lt;&lt;&quot;Cannot open device&quot;&lt;&lt;endl;
+	else
+		cout&lt;&lt;&quot;Device Opened&quot;&lt;&lt;endl;
+	libusb_free_device_list(devs, 1); //free the list, unref the devices in it
+
+	unsigned char *data = new unsigned char[4]; //data to write
+	data[0]=&#x27;a&#x27;;data[1]=&#x27;b&#x27;;data[2]=&#x27;c&#x27;;data[3]=&#x27;d&#x27;; //some dummy values
+
+	int actual; //used to find out how many bytes were written
+	if(libusb_kernel_driver_active(dev_handle, 0) == 1) { //find out if kernel driver is attached
+		cout&lt;&lt;&quot;Kernel Driver Active&quot;&lt;&lt;endl;
+		if(libusb_detach_kernel_driver(dev_handle, 0) == 0) //detach it
+			cout&lt;&lt;&quot;Kernel Driver Detached!&quot;&lt;&lt;endl;
+	}
+	r = libusb_claim_interface(dev_handle, 0); //claim interface 0 (the first) of device (mine had jsut 1)
+	if(r &lt; 0) {
+		cout&lt;&lt;&quot;Cannot Claim Interface&quot;&lt;&lt;endl;
+		return 1;
+	}
+	cout&lt;&lt;&quot;Claimed Interface&quot;&lt;&lt;endl;
+	
+	cout&lt;&lt;&quot;Data-&gt;&quot;&lt;&lt;data&lt;&lt;&quot;&lt;-&quot;&lt;&lt;endl; //just to see the data we want to write : abcd
+	cout&lt;&lt;&quot;Writing Data...&quot;&lt;&lt;endl;
+	r = libusb_bulk_transfer(dev_handle, (1 | LIBUSB_ENDPOINT_OUT), data, 4, &amp;actual, 0); //my device&#x27;s out endpoint was 2, found with trial- the device had 2 endpoints: 2 and 129
+	if(r == 0 &amp;&amp; actual == 4) //we wrote the 4 bytes successfully
+		cout&lt;&lt;&quot;Writing Successful!&quot;&lt;&lt;endl;
+	else
+		cout&lt;&lt;&quot;Write Error&quot;&lt;&lt;endl;
+	
+	r = libusb_release_interface(dev_handle, 0); //release the claimed interface
+	if(r!=0) {
+		cout&lt;&lt;&quot;Cannot Release Interface&quot;&lt;&lt;endl;
+		return 1;
+	}
+	cout&lt;&lt;&quot;Released Interface&quot;&lt;&lt;endl;
+
+	libusb_close(dev_handle); //close the device we opened
+	libusb_exit(ctx); //needs to be called to end the
+
+	delete[] data; //delete the allocated memory for data
+	return 0;
+}</code></pre><p id="5388ee52-5e91-4c12-a53b-33fde136f929" class="">
+</p><p id="ecc080f6-f1c1-467f-87b1-390f1379a5dc" class="">
+</p><p id="40195193-015a-4b74-964b-dadccce38f33" class="">convert it to cpp aplication</p><pre id="b6fe62fa-0559-4a83-b686-a7ac36c13f7f" class="code"><code>QT -= gui
+
+CONFIG += c++11 console
+CONFIG -= app_bundle
+
+LIBS+= -lusb-1.0
+
+# The following define makes your compiler emit warnings if you use
+# any Qt feature that has been marked deprecated (the exact warnings
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
+
+# You can also make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+SOURCES += \
+        main.cpp
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    libusb.h</code></pre><p id="69dc6b9a-3eac-4fa4-98c5-d8041ed1c903" class="">
+</p><pre id="5ffc9e9a-e0d5-4215-bd04-182ca2111298" class="code"><code>#include &lt;QCoreApplication&gt;
+#include &lt;iostream&gt;
+#include &lt;libusb-1.0/libusb.h&gt;
+#include &lt;QDebug&gt;
+#include &lt;stdio.h&gt;
+
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+    libusb_device **devs; //pointer to pointer of device, used to retrieve a list of devices
+        libusb_device_handle *dev_handle; //a device handle
+        libusb_context *ctx = NULL; //a libusb session
+        int r; //for return values
+        ssize_t cnt; //holding number of devices in list
+        r = libusb_init(&amp;ctx); //initialize the library for the session we just declared
+        if(r &lt; 0) {
+            qDebug() &lt;&lt; &quot;Init Error &quot;; //there was an error
+            return 1;
+        }
+        libusb_set_debug(ctx, 3); //set verbosity level to 3, as suggested in the documentation
+
+        cnt = libusb_get_device_list(ctx, &amp;devs); //get the list of devices
+        if(cnt &lt; 0) {
+            qDebug() &lt;&lt;&quot;Get Device Error&quot;&lt;&lt;endl; //there was an error
+            return 1;
+        }
+        qDebug() &lt;&lt;cnt&lt;&lt;&quot; Devices in list.&quot;&lt;&lt;endl;
+
+        dev_handle = libusb_open_device_with_vid_pid(ctx, 0x0483, 0xa376); //these are vendorID and productID I found for my usb device
+        if(dev_handle == NULL)
+            qDebug() &lt;&lt;&quot;Cannot open device&quot;&lt;&lt;endl;
+        else
+            qDebug() &lt;&lt;&quot;Device Opened&quot;&lt;&lt;endl;
+        libusb_free_device_list(devs, 1); //free the list, unref the devices in it
+
+        unsigned char *data = new unsigned char[4]; //data to write
+        data[0]=&#x27;a&#x27;;data[1]=&#x27;b&#x27;;data[2]=&#x27;c&#x27;;data[3]=&#x27;d&#x27;; //some dummy values
+
+        int actual; //used to find out how many bytes were written
+        if(libusb_kernel_driver_active(dev_handle, 0) == 1) { //find out if kernel driver is attached
+            qDebug() &lt;&lt;&quot;Kernel Driver Active&quot;&lt;&lt;endl;
+            if(libusb_detach_kernel_driver(dev_handle, 0) == 0) //detach it
+                qDebug() &lt;&lt;&quot;Kernel Driver Detached!&quot;&lt;&lt;endl;
+        }
+        r = libusb_claim_interface(dev_handle, 0); //claim interface 0 (the first) of device (mine had jsut 1)
+        if(r &lt; 0) {
+            qDebug() &lt;&lt;&quot;Cannot Claim Interface&quot;&lt;&lt;endl;
+            return 1;
+        }
+        qDebug() &lt;&lt;&quot;Claimed Interface&quot;&lt;&lt;endl;
+
+        qDebug() &lt;&lt;&quot;Data-&gt;&quot;&lt;&lt;data&lt;&lt;&quot;&lt;-&quot;&lt;&lt;endl; //just to see the data we want to write : abcd
+        qDebug() &lt;&lt;&quot;Writing Data...&quot;&lt;&lt;endl;
+        r = libusb_bulk_transfer(dev_handle, (1 | LIBUSB_ENDPOINT_OUT), data, 4, &amp;actual, 0); //my device&#x27;s out endpoint was 2, found with trial- the device had 2 endpoints: 2 and 129
+        if(r == 0 &amp;&amp; actual == 4) //we wrote the 4 bytes successfully
+            qDebug() &lt;&lt;&quot;Writing Successful!&quot;&lt;&lt;endl;
+        else
+            qDebug() &lt;&lt;&quot;Write Error&quot;&lt;&lt;endl;
+
+        r = libusb_release_interface(dev_handle, 0); //release the claimed interface
+        if(r!=0) {
+            qDebug() &lt;&lt;&quot;Cannot Release Interface&quot;&lt;&lt;endl;
+            return 1;
+        }
+        qDebug() &lt;&lt;&quot;Released Interface&quot;&lt;&lt;endl;
+
+        libusb_close(dev_handle); //close the device we opened
+        libusb_exit(ctx); //needs to be called to end the
+
+        delete[] data; //delete the allocated memory for data
+        return 0;
+
+    return a.exec();
+}</code></pre><p id="f8fdf10f-453a-4847-a11e-2d62d487d8c1" class="">
+</p></div></article></body></html>
